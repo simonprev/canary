@@ -26,8 +26,11 @@ defmodule Canary.DefaultHandler do
       _ -> conn
     end
   end
-  def not_found_handler(%Phoenix.LiveView.Socket{} = socket) do
-    {:halt, Phoenix.LiveView.redirect(socket, to: "/")}
+
+  if Code.ensure_loaded?(Phoenix.LiveView) do
+    def not_found_handler(%Phoenix.LiveView.Socket{} = socket) do
+      {:halt, Phoenix.LiveView.redirect(socket, to: "/")}
+    end
   end
 
   @doc """
@@ -43,7 +46,10 @@ defmodule Canary.DefaultHandler do
       _ -> conn
     end
   end
-  def unauthorized_handler(%Phoenix.LiveView.Socket{} = socket) do
-    {:halt, Phoenix.LiveView.redirect(socket, to: "/")}
+
+  if Code.ensure_loaded?(Phoenix.LiveView) do
+    def unauthorized_handler(%Phoenix.LiveView.Socket{} = socket) do
+      {:halt, Phoenix.LiveView.redirect(socket, to: "/")}
+    end
   end
 end

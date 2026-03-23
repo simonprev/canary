@@ -110,8 +110,12 @@ defmodule Canary.Utils do
   Apply the error handler to the connection or socket
   """
   @spec apply_error_handler(Plug.Conn.t(), atom, Keyword.t()) :: Plug.Conn.t()
-  @spec apply_error_handler(Phoenix.LiveView.Socket.t(), atom, Keyword.t()) ::
-          {:halt, Phoenix.LiveView.Socket.t()}
+
+  if Code.ensure_loaded?(Phoenix.LiveView) do
+    @spec apply_error_handler(Phoenix.LiveView.Socket.t(), atom, Keyword.t()) ::
+            {:halt, Phoenix.LiveView.Socket.t()}
+  end
+
   def apply_error_handler(conn_or_socket, handler_key, opts) do
     get_handler(handler_key, opts)
     |> apply([conn_or_socket])
